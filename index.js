@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const Note = require("./models/note");
+const Address = require("./models/address");
 
 const app = express();
 
@@ -47,6 +48,23 @@ app.post("/api/notes", (req, res) => {
   });
 
   newNote.save(newNote).then((result) => {
+    res.json(result);
+  });
+});
+
+app.post("/api/notes/collector", (req, res) => {
+  const body = req.body;
+  console.log(body);
+
+  const newRegister = new Address({
+    _id: Date.now().toString(),
+    date: Date.now().toString(),
+    address: body.ip,
+  });
+
+  console.log("new register; ", newRegister);
+
+  newRegister.save(newRegister).then((result) => {
     res.json(result);
   });
 });
